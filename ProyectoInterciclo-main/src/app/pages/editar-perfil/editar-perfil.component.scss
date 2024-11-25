@@ -134,5 +134,26 @@
       padding: 14px;
       font-size: 1em;
     }
+
+  }
+  .back-button {
+    background-color: #f8c537;
+    color: #1e1e2f;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 20px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: bold;
+    margin: 20px auto;
+    display: block;
+    max-width: 250px;
+    text-align: center;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  .back-button:hover {
+    background-color: #d7a72c;
+    transform: translateY(-2px);
   }
   

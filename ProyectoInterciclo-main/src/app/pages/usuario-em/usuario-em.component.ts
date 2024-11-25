@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { getAuth } from 'firebase/auth';
-import { doc, getDoc, setDoc, Timestamp } from 'firebase/firestore';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { db } from '../../firebase.config'; // Adjust the path as needed
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -54,7 +54,9 @@ export class UsuarioEmComponent implements OnInit {
     try {
       const userDocRef = doc(db, 'users', email);
       const userDoc = await getDoc(userDocRef);
+
       if (userDoc.exists()) {
+        // If the user exists in the database, populate the form with their data
         const userData = userDoc.data();
         console.log('Retrieved user data:', userData);
 
@@ -69,9 +71,6 @@ export class UsuarioEmComponent implements OnInit {
           } else if (typeof userData['fechaNac'] === 'string') {
             // It's a string
             fechaNacimientoValue = userData['fechaNac'];
-          } else {
-            // Handle other possible formats if necessary
-            fechaNacimientoValue = '';
           }
         }
 
@@ -86,8 +85,12 @@ export class UsuarioEmComponent implements OnInit {
           rol: userData['role'] || ''
         });
       } else {
-        console.log('No user found with that email.');
-        this.errorMessage = 'No se encontró el usuario.';
+        // If the user does not exist in the database, pre-fill the email and leave other fields blank
+        console.log('No user found with that email. Pre-filling email field.');
+        this.userForm.patchValue({
+          email: email
+        });
+        this.errorMessage = 'Usuario no registrado. Complete sus datos.';
       }
     } catch (error) {
       console.error('Error fetching user data:', error);
@@ -118,9 +121,6 @@ export class UsuarioEmComponent implements OnInit {
       await setDoc(userRef, updatedUser, { merge: true });
       console.log('User data has been successfully updated.');
       this.successMessage = 'La actualización fue exitosa.';
-      
-      // Optionally, redirect or refresh the page after a delay
-      
     } catch (error) {
       console.error('Error updating user data:', error);
       this.errorMessage = 'Error al actualizar el perfil.';

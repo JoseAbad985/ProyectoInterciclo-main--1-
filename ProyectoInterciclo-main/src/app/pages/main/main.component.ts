@@ -146,23 +146,37 @@ export class MainComponent implements OnInit {
     const placaInput = document.getElementById('placaIngreso') as HTMLInputElement;
     const placa: string = placaInput?.value.toUpperCase() || '';
   
-    if (placa === "" || this.placasOcupadas[placa]) {
-      alert("Ingrese una placa válida o que no esté ya ocupando.");
+    if (placa === '' || this.placasOcupadas[placa]) {
+      alert('Ingrese una placa válida o que no esté ya ocupando.');
       return;
     }
   
-    const espacio = document.querySelector('.espacio:not(.ocupado)') as HTMLElement;
+    // Find the first unoccupied space
+    let espacioId = 1; // Default to space 1 if no spaces are occupied
+    for (let i = 1; i <= this.numeroParqueos; i++) {
+      if (!Object.values(this.placasOcupadas).includes(i)) {
+        espacioId = i;
+        break;
+      }
+    }
+  
+    if (espacioId > this.numeroParqueos) {
+      alert('No hay espacios disponibles.');
+      return;
+    }
+  
+    // Assign the plate to the selected space
+    const espacio = document.querySelector(`.espacio[data-espacio="${espacioId}"]`) as HTMLElement;
     if (espacio) {
       espacio.classList.add('ocupado');
       espacio.innerHTML = `<span class="placa">${placa}</span>`;
-      this.placasOcupadas[placa] = parseInt(espacio.dataset['espacio'] || "0");
+      this.placasOcupadas[placa] = espacioId;
       placaInput.value = '';
       this.updatePlateList();
-      this.savePlateToFirestore(placa, this.placasOcupadas[placa]);
-    } else {
-      alert("No hay espacios disponibles.");
+      this.savePlateToFirestore(placa, espacioId);
     }
   }
+  
 
   savePlateToFirestore(placa: string, espacioId: number): void {
     const platesCollection = collection(db, 'placas');
