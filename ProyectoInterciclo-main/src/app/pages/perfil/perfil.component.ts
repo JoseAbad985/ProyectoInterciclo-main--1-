@@ -1,37 +1,34 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { db } from '../../firebase.config';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-perfil',
-  standalone : true,
   templateUrl: './perfil.component.html',
-  imports: [ReactiveFormsModule,CommonModule],
   styleUrls: ['./perfil.component.scss'],
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule]
 })
 export class PerfilComponent implements OnInit {
   userForm: FormGroup;
   emailEntrada: string = '';
+  loading: boolean = false;
 
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
     private router: Router
   ) {
-    this.emailEntrada = localStorage.getItem('email') || ''; // Carga el correo desde localStorage
-    if (!this.emailEntrada) {
-      console.warn('No se encontró un correo en localStorage.');
-    }
-
+    this.emailEntrada = localStorage.getItem('userEmail') || '';
 
     this.userForm = this.fb.group({
       apellido: ['', Validators.required],
       cedula: ['', [Validators.required, Validators.pattern(/^\d{10}$/)]],
-      email: [this.emailEntrada, [Validators.required, Validators.email]], // Prellenar con el correo
+      email: [{ value: this.emailEntrada, disabled: true }, [Validators.required, Validators.email]],
       telefono: ['', [Validators.required, Validators.pattern(/^\d{10}$/)]],
       nombre: ['', Validators.required],
       fecha_nacimiento: ['', Validators.required],
@@ -40,75 +37,75 @@ export class PerfilComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
-    console.log('ngOnInit triggered in perfil.component.ts');
-    console.log("Retrieving email from local storage...");
-    await new Promise((resolve) => setTimeout(resolve, 500));
-    this.emailEntrada = localStorage.getItem('userEmail') || ''; // Default to empty string if null
-    console.log("Email retrieved:", this.emailEntrada);
-    if (this.emailEntrada) {
-      try {
-        const userDocRef = doc(db, 'users', this.emailEntrada);
-        const userDoc = await getDoc(userDocRef);
-  
-        if (userDoc.exists()) {
-          const userData = userDoc.data();
-          this.userForm.patchValue({
-            apellido: userData['apellido'] || '',
-            cedula: userData['cedula'] || '',
-            email: userData['email'] || '',
-            telefono: userData['telefono'] || '',
-            nombre: userData['nombre'] || '',
-            fecha_nacimiento: userData['fechaNac']
-              ? new Date(userData['fechaNac'].seconds * 1000).toISOString().substring(0, 10)
-              : '',
-            rol: userData['role'] || '',
-          });
-        } else {
-          console.warn('No se encontraron datos del usuario en Firestore.');
-        }
-      } catch (error) {
-        console.error('Error al obtener los datos del usuario:', error);
+    try {
+      if (!this.emailEntrada) {
+        console.error('No email found in localStorage');
+        alert('Error: No se encontró el email del usuario');
+        this.router.navigate(['/login']);
+        return;
       }
-    } else {
-      console.warn('No se encontró un correo en localStorage.');
+
+      await this.loadUserData();
+    } catch (error) {
+      console.error('Error in ngOnInit:', error);
+      alert('Error al cargar los datos del usuario');
     }
   }
-  
-  
 
-  async onSubmit() {
-    if (this.userForm.invalid) {
-      this.userForm.markAllAsTouched();
-      return;
-    }
-
-    const { cedula, email, rol } = this.userForm.value;
-
+  private async loadUserData(): Promise<void> {
     try {
-      const userRef = doc(db, 'users', email);
-      await setDoc(
-        userRef,
-        {
-          apellido: this.userForm.value.apellido,
-          cedula,
-          email,
-          fechaNac: new Date(this.userForm.value.fecha_nacimiento),
-          nombre: this.userForm.value.nombre,
-          telefono: this.userForm.value.telefono,
-          role: rol,
-        },
-        { merge: true }
-      );
+      const userDocRef = doc(db, 'users', this.emailEntrada);
+      const userDoc = await getDoc(userDocRef);
 
-      if (rol === 'administrador') {
-        this.router.navigate(['pages/Main']);
-      } else {
-        this.router.navigate(['pages/editPerfilU']);
+      if (userDoc.exists()) {
+        const userData = userDoc.data();
+        this.userForm.patchValue({
+          apellido: userData['apellido'] || '',
+          cedula: userData['cedula'] || '',
+          telefono: userData['telefono'] || '',
+          nombre: userData['nombre'] || '',
+          fecha_nacimiento: userData['fecha_nacimiento'] || '',
+          rol: userData['rol'] || '',
+        });
       }
-
-      console.log('Datos del usuario actualizados en Firestore.');
     } catch (error) {
-      console.error('Error al guardar los datos en Firestore:', error);
+      console.error('Error loading user data:', error);
+      throw error;
+    }
+  }
+
+  async onSubmit(): Promise<void> {
+    try {
+      if (this.userForm.valid) {
+        this.loading = true;
+        
+        // Get the complete form value including disabled fields
+        const formData = {
+          ...this.userForm.getRawValue(),
+          email: this.emailEntrada, // Ensure we use the email from localStorage
+          updatedAt: new Date().toISOString()
+        };
+
+        const userDocRef = doc(db, 'users', this.emailEntrada);
+        
+        await setDoc(userDocRef, formData, { merge: true });
+        
+        console.log('User data saved successfully:', formData);
+        alert('Datos guardados exitosamente');
+      } else {
+        // Mark all fields as touched to trigger validation messages
+        Object.keys(this.userForm.controls).forEach(key => {
+          const control = this.userForm.get(key);
+          control?.markAsTouched();
+        });
+        
+        alert('Por favor, complete todos los campos requeridos correctamente');
+      }
+    } catch (error) {
+      console.error('Error saving user data:', error);
+      alert('Error al guardar los datos. Por favor, intente nuevamente');
+    } finally {
+      this.loading = false;
     }
   }
 }

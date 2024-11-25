@@ -5,7 +5,6 @@ import { AuthService } from '../../services/auth.service';
 import { getDocs, query, where, collection, deleteDoc, doc } from 'firebase/firestore';
 import { firestore } from '../../firebase.config';
 import { NgForOf, NgIf } from '@angular/common';
-import { User } from 'firebase/auth';
 
 @Component({
   selector: 'app-listar-usuarios',
@@ -51,7 +50,7 @@ export class ListarUsuariosComponent {
             email: user.email,
             telefono: user.telefono,
             nombre: user.nombre,
-            fecha_nacimiento: user.fechaNac ? new Date(user.fechaNac.seconds * 1000).toISOString().substring(0, 10) : '',
+            fecha_nacimiento: this.formatDate(user.fechaNac),
             rol: user.role || 'defaultRole'  // Assign 'role' or default value
           });
         }
@@ -82,6 +81,7 @@ export class ListarUsuariosComponent {
         return null; // Return null if no user is found
       } else {
         const user = querySnapshot.docs[0].data(); // Get the first matching user
+        console.log('User fetched:', user); // Debugging info
         return user;
       }
     }).catch(error => {
@@ -90,11 +90,28 @@ export class ListarUsuariosComponent {
     });
   }
 
+  /**
+   * Safely format date from Firestore timestamp
+   * @param dateData Firestore date object
+   * @returns Formatted date string (YYYY-MM-DD) or empty string
+   */
+  formatDate(dateData: any): string {
+    if (!dateData || !dateData.seconds) {
+      console.warn("Invalid or missing date:", dateData);
+      return ''; // Return empty string if date is invalid
+    }
+    try {
+      return new Date(dateData.seconds * 1000).toISOString().substring(0, 10);
+    } catch (error) {
+      console.error("Error formatting date:", error);
+      return ''; // Return empty string on error
+    }
+  }
+
   editUser(email: string): void {
     this.getUserByEmail(email).then(user => {
       if (user) {
-        
-        console.log("Email para editar: ",email);
+        console.log("Email for editing: ", email);
         this.authService.setEmailEditar(email);
         
         // Navigate to the edit user page and pass the user data
@@ -108,8 +125,7 @@ export class ListarUsuariosComponent {
   }
 
   deleteUser(email: string): void {
-    console.log("Email: ", email);
-    console.log('Deleting user:', email);
+    console.log("Deleting user:", email);
 
     // Fetch the user by email to get the user document reference
     const usersCollectionRef = collection(firestore, 'users');
@@ -135,6 +151,7 @@ export class ListarUsuariosComponent {
       console.error('Error fetching user by email for deletion:', error);
     });
   }
+
   goToMainPage(): void {
     this.router.navigate(['pages/Main']); 
   }

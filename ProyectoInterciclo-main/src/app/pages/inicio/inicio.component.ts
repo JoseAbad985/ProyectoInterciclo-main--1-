@@ -34,10 +34,7 @@ export class InicioComponent {
 
         
         // Store the user's email in local storage
-        if (user.email) {
-          localStorage.setItem('userEmail', user.email);
-          console.log("Email stored in local storage:", user.email);
-        }
+        
         
         this.checkUserProfile(user);
         console.log("Successfully signed in with Google");

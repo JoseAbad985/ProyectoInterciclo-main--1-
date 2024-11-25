@@ -10,20 +10,7 @@ import { RouterOutlet } from '@angular/router';
   styleUrls: ['./app.component.scss'],
   imports :[RouterOutlet]
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
 
-  constructor(private router: Router) {}
-
-  ngOnInit(): void {
-    const auth = getAuth();
-    onAuthStateChanged(auth, (user) => {
-      if (!user) {
-        // Si el usuario no está autenticado, redirige al login
-        this.router.navigate(['/inicio']);
-      } else {
-        // Si el usuario está autenticado, se queda en la página actual
-        console.log('Usuario autenticado:', user.email);
-      }
-    });
-  }
+  title = "Parqueadero";
 }
