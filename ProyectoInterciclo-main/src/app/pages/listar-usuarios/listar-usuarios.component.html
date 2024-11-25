@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Lista de Usuarios</title>
+  <link rel="stylesheet" href="listar-usuarios.component.scss"> <!-- Ensure this path is correct -->
+</head>
+<body>
+  <!-- Back to Main Page Button -->
+  <button class="back-button" (click)="goToMainPage()">Volver al Inicio</button>
+
+  <h2>Lista de Usuarios</h2>
+
+  <div *ngIf="users.length === 0" class="no-users">No hay usuarios disponibles</div>
+  <ul *ngIf="users.length > 0">
+    <li *ngFor="let user of users">
+      <strong>{{ user.nombre }} {{ user.apellido }}</strong>
+      <p>Email: {{ user.email }}</p>
+      <p>Cédula: {{ user.cedula }}</p>
+
+      <!-- Botones de editar y borrar -->
+      <button class="edit" (click)="editUser(user.email)">Editar</button>
+      <button class="delete" (click)="deleteUser(user.email)">Borrar</button>
+    </li>
+  </ul>
+</body>
+</html>

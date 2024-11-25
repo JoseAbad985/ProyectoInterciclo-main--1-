@@ -1,0 +1,39 @@
+<!-- contratos.component.html -->
+
+<body>
+  <div>
+    <button class="back-button" (click)="goToMainPage()">Volver al Inicio</button>
+    <h2>Gestión de Contratos de Arriendo Mensual</h2>
+
+    <!-- Success Message -->
+    <div *ngIf="successMessage" class="success-message">
+      {{ successMessage }}
+    </div>
+
+    <!-- Error Message -->
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div>
+
+    <form [formGroup]="contratoForm" (ngSubmit)="registrarContrato()">
+      <label for="clienteNombre">Nombre del cliente:</label>
+      <select id="clienteNombre" formControlName="clienteId" required>
+        <option value="">Seleccione un cliente</option>
+        <option *ngFor="let cliente of clientes" [value]="cliente.id">
+          {{ cliente.nombre }}, {{ cliente.cedula }}
+        </option>
+      </select>
+
+      <label for="placaContrato">Placa del vehículo:</label>
+      <input type="text" id="placaContrato" formControlName="placaContrato" placeholder="Ingrese la placa (max 7 caracteres)" maxlength="7" required>
+
+      <label for="inicioContrato">Fecha de inicio:</label>
+      <input type="date" id="inicioContrato" formControlName="inicioContrato" required>
+
+      <label for="finContrato">Fecha de fin:</label>
+      <input type="date" id="finContrato" formControlName="finContrato" required>
+
+      <button type="submit" [disabled]="contratoForm.invalid || isSubmitting">Registrar contrato</button>
+    </form>
+  </div>
+</body>

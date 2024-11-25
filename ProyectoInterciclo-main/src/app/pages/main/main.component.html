@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Parqueadero</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="main.component.scss">
+</head>
+<body>
+    <div class="container">
+        <!-- Admin Navigation -->
+        <div class="admin-nav">
+            <button class="settings-btn" (click)="guardarEmail()">
+                <i class="fas fa-cog"></i> Settings
+            </button>
+            <div class="management-buttons">
+                <button class="management-btn" (click)="listarUsuarios()">
+                    <i class="fas fa-users"></i> Listar Usuarios
+                </button>
+                <button class="management-btn" (click)="listarContratos()">
+                    <i class="fas fa-file-contract"></i> Listar Contratos
+                </button>
+                <button class="management-btn" (click)="gestionarContrato()">
+                    <i class="fas fa-file-signature"></i> Registrar Contrato
+                </button>
+                <button class="management-btn" (click)="gestionarParqueadero()">
+                    <i class="fas fa-parking"></i> Configuración Parqueadero
+                </button>
+            </div>
+        </div>
+
+        <!-- Tariffs Information -->
+        <div class="tarifa-info">
+            <h2>Tarifas Definidas</h2>
+            <p>Tarifa por hora: <span id="infoTarifaHora"></span></p>
+            <p>Tarifa por día: <span id="infoTarifaDia"></span></p>
+            <p>Tarifa por mes: <span id="infoTarifaMes"></span></p>
+        </div>
+
+        <!-- Configuration Information -->
+        <div class="info-config">
+            <h2>Información Configuración</h2>
+            <p>Horario de apertura: <span id="horarioApertura"></span></p>
+            <p>Horario de cierre: <span id="horarioCierre"></span></p>
+            <p>Número de parqueos: <span id="numeroParqueosInfo"></span></p>
+            <p>Días de apertura: <span id="diasApertura"></span></p>
+        </div>
+
+        <!-- Vehicle Entry/Exit Sections -->
+        <div class="vehicle-actions-container">
+            <div class="vehicle-section">
+                <h2>Ingreso de Placa de Vehículo</h2>
+                <input type="text" id="placaIngreso" placeholder="Ingrese la placa (max 7 caracteres)" maxlength="7" />
+                <button class="btn-entry" (click)="ocuparEspacio()">
+                    <i class="fas fa-car"></i> Ocupar Espacio
+                </button>
+            </div>
+
+            <div class="vehicle-section">
+                <h2>Salida de Vehículo</h2>
+                <input type="text" id="placaSalida" placeholder="Ingrese la placa para salir" maxlength="7" />
+                <button class="btn-exit" (click)="salirEspacio()">
+                    <i class="fas fa-sign-out-alt"></i> Salir
+                </button>
+            </div>
+        </div>
+
+        <!-- Parking Spaces -->
+        <h2>Espacios en el Parqueadero</h2>
+        <div id="parqueadero">
+            <div class="espacio libre" data-espacio="1">Espacio 1</div>
+            <div class="espacio ocupado" data-espacio="2">Espacio 2</div>
+        </div>
+
+        <!-- List of Plates -->
+        <div>
+            <h3>Placas en el Parqueadero</h3>
+            <ul id="listaPlacasContenido">
+                <!-- Dynamic List Items -->
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

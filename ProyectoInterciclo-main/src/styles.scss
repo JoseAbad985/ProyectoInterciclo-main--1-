@@ -1,0 +1,48 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: auto; /* Enable scrolling */
+}
+
+/* src/styles.css */
+
+body {
+    background-color: #1e1e2f; /* Dark background */
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    color: #f1f1f1; /* Light text color */
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 30px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    border-radius: 12px;
+    overflow: auto; /* Ensure content inside can scroll */
+}
+
+/* Edit button styling */
+button.edit {
+    background-color: #4caf50; /* Green color to indicate editing */
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 0.95em;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    position: absolute;
+    top: 25px;
+    right: 100px; /* Adjust position so it doesn't overlap with the delete button */
+  }
+  
+  /* Hover effect for edit button */
+  button.edit:hover {
+    background-color: #45a049;
+    transform: scale(1.05);
+  }
+  

@@ -1,0 +1,179 @@
+/* Body Background */
+body {
+  background-color: #1e1e2f; /* Dark background to match the theme */
+  margin: 0;
+  padding: 0;
+  font-family: 'Arial', sans-serif;
+  color: #f1f1f1; /* Light text color for contrast */
+}
+
+/* Styling for the page title */
+h2 {
+  color: #f8c537; /* Golden yellow */
+  text-align: center;
+  margin-top: 40px;
+  margin-bottom: 20px;
+  font-size: 2em;
+  font-weight: 700;
+}
+
+/* Container for the contracts list */
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0 auto;
+  max-width: 800px; /* Center the list and limit its width */
+}
+
+/* Individual contract card styling */
+li {
+  background-color: #2a2a40; /* Dark card background to match the theme */
+  border-radius: 12px;       /* Rounded corners for a modern look */
+  padding: 25px;             /* Space inside the card */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions */
+  color: #f1f1f1; /* Light text color for contrast */
+  position: relative; /* For positioning the delete button */
+  margin-bottom: 20px; /* Space between cards */
+}
+
+/* Hover effect for contract cards */
+li:hover {
+  transform: translateY(-5px); /* Lift effect */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); /* Enhanced shadow on hover */
+}
+
+/* Styling for contract title */
+li strong {
+  color: #f8c537; /* Golden yellow to highlight the client's name */
+  font-size: 1.4em; /* Larger text for emphasis */
+  margin-bottom: 15px;
+  display: block;
+}
+
+/* Styling for contract details */
+li p {
+  color: #ccc; /* Light grey text for secondary information */
+  font-size: 1em;
+  margin: 8px 0;
+}
+
+/* Delete button styling */
+button.delete {
+  background-color: #e63946; /* Red color to indicate deletion */
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-size: 0.95em;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  position: absolute;
+  top: 25px;
+  right: 25px;
+}
+
+/* Hover effect for delete button */
+button.delete:hover {
+  background-color: #d62839;
+  transform: scale(1.05);
+}
+
+/* Styling when no contracts are available */
+div {
+  font-size: 1.2em;
+  color: #f8c537; /* Golden yellow */
+  text-align: center;
+  padding: 30px;
+  background-color: #2a2a40; /* Match the dark theme */
+  border-radius: 12px;
+  border: 1px solid #3b3b55;
+  max-width: 600px;
+  margin: 60px auto;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  ul {
+    margin: 20px 10px;
+  }
+
+  li {
+    padding: 20px;
+  }
+
+  button.delete {
+    top: 20px;
+    right: 20px;
+  }
+
+  h2 {
+    font-size: 1.5em;
+    margin-top: 20px;
+    margin-bottom: 15px;
+  }
+
+  /* Existing styles */
+
+/* Edit button styling */
+/* Edit button styling */
+button.edit {
+  background-color: #4caf50; /* Green color to indicate editing */
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-size: 0.95em;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  position: absolute;
+  top: 25px;
+  right: 100px; /* Adjust position so it doesn't overlap with the delete button */
+}
+
+/* Hover effect for edit button */
+button.edit:hover {
+  background-color: #45a049;
+  transform: scale(1.05);
+}
+
+
+/* Adjust delete button position */
+button.delete {
+  right: 25px; /* Ensure this doesn't conflict with the edit button */
+}
+
+}
+
+/* Existing styles... */
+
+/* Back to Main Page Button Styling */
+  .back-button {
+    background-color: #f8c537; /* Golden yellow */
+    color: #1e1e2f;             /* Dark text color */
+    border: none;
+    border-radius: 8px;
+    padding: 12px 20px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: bold;
+    margin: 20px ;          /* Center horizontally */
+    display: block;             /* Make the button a block element */
+    max-width: 200px;
+    text-align: left;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+
+  .back-button:hover {
+    background-color: #d7a72c;
+    transform: translateY(-2px);
+  }
+
+  @media (max-width: 768px) {
+    .back-button {
+      margin: 15px auto;
+      padding: 10px 16px;
+      font-size: 0.9em;
+    }
+  }

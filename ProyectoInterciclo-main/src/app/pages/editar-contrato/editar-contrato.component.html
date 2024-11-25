@@ -1,0 +1,36 @@
+<div class="container" *ngIf="!loading">
+    <h2>Editar Contrato</h2>
+  
+    <!-- Success Message -->
+    <div *ngIf="successMessage" class="success-message">
+      {{ successMessage }}
+    </div>
+  
+    <!-- Error Message -->
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div>
+  
+    <form [formGroup]="contratoForm" (ngSubmit)="actualizarContrato()">
+      <label for="clienteId">ID del Cliente:</label>
+      <input type="text" id="clienteId" formControlName="clienteId" required>
+  
+      <label for="placaContrato">Placa del vehículo:</label>
+      <input type="text" id="placaContrato" formControlName="placaContrato" maxlength="7" required>
+  
+      <label for="inicioContrato">Fecha de inicio:</label>
+      <input type="date" id="inicioContrato" formControlName="inicioContrato" required>
+  
+      <label for="finContrato">Fecha de fin:</label>
+      <input type="date" id="finContrato" formControlName="finContrato" required>
+  
+  
+      <button type="submit" [disabled]="contratoForm.invalid">Actualizar Contrato</button>
+    </form>
+  </div>
+  
+  <!-- Loading Indicator -->
+  <div *ngIf="loading" class="loading">
+    Cargando datos del contrato...
+  </div>
+  

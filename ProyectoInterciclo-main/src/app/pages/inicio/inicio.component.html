@@ -1,0 +1,24 @@
+<div class="main-container">
+  <div class="image-container">
+      <img src="assets/ImagenInicio.jpg" alt="Login background" />
+  </div>
+  <div class="container">
+      <h1>Bienvenido al sistema de parqueadero!</h1>
+      
+      <!-- Google Sign In -->
+      <button class="google-login" (click)="signInWithGoogle()">
+          Log in with Google
+      </button>
+
+      <!-- Error Message -->
+      <div class="error-message" *ngIf="error">
+          {{ errorMessage }}
+      </div>
+
+      <!-- Sign up link -->
+      <div class="sign-up">
+        Don't have an account? 
+        <a (click)="signUpWithGoogleAndNavigate()">Sign up</a>
+    </div>
+  </div>
+</div>

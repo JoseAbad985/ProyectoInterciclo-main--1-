@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario De Usuario</title>
+    <style>
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #1e1e2f;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            padding: 20px;
+            text-align: center;
+            flex-direction: column;
+        }
+
+        h2 {
+            color: #f8c537;
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            text-align: center;
+        }
+
+        form {
+            background-color: #2a2a40;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 600px;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #f1f1f1;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 14px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            border: 2px solid #3b3b55;
+            background-color: #1e1e2f;
+            color: #f1f1f1;
+            font-size: 14px;
+        }
+
+        input[readonly] {
+            background-color: #2a2a40;
+            cursor: not-allowed;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #f8c537;
+        }
+
+        small {
+            color: #e74c3c;
+            font-size: 12px;
+            margin-top: -15px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        button {
+            width: 100%;
+            padding: 16px;
+            background-color: #f8c537;
+            color: #1e1e2f;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        button:hover:not(:disabled) {
+            background-color: #d7a72c;
+            transform: translateY(-2px);
+        }
+
+        /* Success and Error Messages */
+        .success-message,
+        .error-message {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 1.1em;
+        }
+
+        .success-message {
+            color: #4caf50;
+            background-color: #e8f5e9;
+            border: 1px solid #4caf50;
+        }
+
+        .error-message {
+            color: #e74c3c;
+            background-color: #fcebea;
+            border: 1px solid #e74c3c;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            h2 {
+                font-size: 1.5em;
+                margin-top: 15px;
+                margin-bottom: 20px;
+            }
+
+            form {
+                padding: 20px;
+            }
+
+            button {
+                padding: 14px;
+                font-size: 1em;
+            }
+        }
+
+        .salir-button {
+            width: auto; /* Adjust width as needed */
+            padding: 16px 24px;
+            background-color: #f8c537; /* Gold-yellow background */
+            color: #1e1e2f; /* Dark text color to match the theme */
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            text-align: center;
+            margin-top: 20px; /* Space from the other content */
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Shadow effect for depth */
+        }
+
+        .salir-button:hover {
+            background-color: #d7a72c; /* Darker gold for hover state */
+            transform: translateY(-2px); /* Slight lift for hover effect */
+        }
+
+        .salir-button:active {
+            transform: translateY(0); /* No lift when clicked */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Softer shadow when clicked */
+        }
+
+    </style>
+</head>
+<body>
+    
+    <h2>Formulario De Usuario
+        
+    </h2>
+
+    <button class="salir-button" (click)="goToMainPage()">Salir</button>
+
+    <form [formGroup]="userForm">
+        <label for="cedula">Cédula:</label>
+        <input type="text" id="cedula" formControlName="cedula" maxlength="10" readonly>
+        <div *ngIf="userForm.get('cedula')?.invalid && userForm.get('cedula')?.touched">
+            <small>La cédula debe ser un número de 10 dígitos.</small>
+        </div>
+
+        <label for="email">Correo Electrónico:</label>
+        <input type="email" id="email" formControlName="email" readonly>
+        <div *ngIf="userForm.get('email')?.invalid && userForm.get('email')?.touched">
+            <small>Por favor ingresa un correo electrónico válido.</small>
+        </div>
+
+        <label for="telefono">Teléfono:</label>
+        <input type="tel" id="telefono" formControlName="telefono">
+        <div *ngIf="userForm.get('telefono')?.invalid && userForm.get('telefono')?.touched">
+            <small>El teléfono debe tener 10 dígitos.</small>
+        </div>
+
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" formControlName="nombre">
+        <div *ngIf="userForm.get('nombre')?.invalid && userForm.get('nombre')?.touched">
+            <small>El nombre es obligatorio.</small>
+        </div>
+
+        <label for="apellido">Apellido:</label>
+        <input type="text" id="apellido" formControlName="apellido">
+        <div *ngIf="userForm.get('apellido')?.invalid && userForm.get('apellido')?.touched">
+            <small>El apellido es obligatorio.</small>
+        </div>
+
+        <label for="fecha_nacimiento">Fecha de Nacimiento:</label>
+        <input type="date" id="fecha_nacimiento" formControlName="fecha_nacimiento" readonly>
+        <div *ngIf="userForm.get('fecha_nacimiento')?.invalid && userForm.get('fecha_nacimiento')?.touched">
+            <small>Por favor selecciona una fecha de nacimiento.</small>
+        </div>
+
+        <label for="rol">Role:</label>
+        <input type="text" id="rol" formControlName="rol" readonly>
+        <div *ngIf="userForm.get('rol')?.invalid && userForm.get('rol')?.touched">
+            <small>Por favor selecciona un rol.</small>
+        </div>
+
+        <button type="submit" (click)="actualizar()">Enviar</button>
+    </form>
+
+    <div *ngIf="successMessage" class="success-message">
+        {{ successMessage }}
+      </div>
+      
+      <div *ngIf="errorMessage" class="error-message">
+        {{ errorMessage }}
+      </div>
+      
+
+</body>
+</html>

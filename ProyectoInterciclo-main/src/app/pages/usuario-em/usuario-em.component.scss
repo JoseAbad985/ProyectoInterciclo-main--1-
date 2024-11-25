@@ -1,0 +1,25 @@
+.salir-button {
+    width: auto; /* Adjust width as needed */
+    padding: 16px 24px;
+    background-color: #f8c537; /* Gold-yellow background */
+    color: #1e1e2f; /* Dark text color to match the theme */
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    text-align: center;
+    margin-top: 20px; /* Space from the other content */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Shadow effect for depth */
+}
+
+.salir-button:hover {
+    background-color: #d7a72c; /* Darker gold for hover state */
+    transform: translateY(-2px); /* Slight lift for hover effect */
+}
+
+.salir-button:active {
+    transform: translateY(0); /* No lift when clicked */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Softer shadow when clicked */
+}
