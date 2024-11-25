@@ -14,11 +14,9 @@ import { EditarContratoComponent } from './pages/editar-contrato/editar-contrato
 
 export const routes: Routes = [
 
-
-
     {
-        path: '',redirectTo: '/main', pathMatch: 'full'
-        
+        path: '',
+        component : InicioComponent
     },
 
     {
@@ -61,11 +59,14 @@ export const routes: Routes = [
         path: 'pages/configParqueo',
         component: ConfParqueoComponent
     },
-    { path: 'listar-contratos', component: ListarContratosComponent },
-  { path: 'editar-contrato/:id', component: EditarContratoComponent },
-  // Redirect to list contracts by default
-  { path: '', redirectTo: '/listar-contratos', pathMatch: 'full' },
-  // Wildcard route for a 404 page
-  { path: '**', redirectTo: '/listar-contratos' }
+    { 
+        path: 'listar-contratos', 
+        component: ListarContratosComponent 
+    },
+    { 
+        path: 'editar-contrato/:id', 
+        component: EditarContratoComponent 
+    },
+
 
 ];
