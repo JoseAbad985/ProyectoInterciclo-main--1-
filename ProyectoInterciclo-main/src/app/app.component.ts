@@ -19,7 +19,7 @@ export class AppComponent implements OnInit {
     onAuthStateChanged(auth, (user) => {
       if (!user) {
         // Si el usuario no está autenticado, redirige al login
-        this.router.navigate(['/login']);
+        this.router.navigate(['/inicio']);
       } else {
         // Si el usuario está autenticado, se queda en la página actual
         console.log('Usuario autenticado:', user.email);
