@@ -11,16 +11,14 @@ import { ListarContratosComponent } from './pages/listar-contratos/listar-contra
 import { ConfParqueoComponent } from './pages/conf-parqueo/conf-parqueo.component';
 import { EditarContratoComponent } from './pages/editar-contrato/editar-contrato.component';
 
-
 export const routes: Routes = [
-
     {
         path: '',
-        component : InicioComponent
+        redirectTo: 'inicio',
+        pathMatch: 'full'
     },
-
     {
-        path: 'pages/inicio',
+        path: 'inicio',
         component: InicioComponent
     },
     {
@@ -67,6 +65,8 @@ export const routes: Routes = [
         path: 'editar-contrato/:id', 
         component: EditarContratoComponent 
     },
-
-
+    {
+        path: '**',
+        redirectTo: 'inicio'
+    }
 ];
