@@ -107,4 +107,7 @@ export class EditarContratoComponent implements OnInit {
       this.errorMessage = 'Hubo un error al actualizar el contrato.';
     }
   }
+  goToUserList(): void {
+    this.router.navigate(['/listar-contratos']);
+  }
 }
