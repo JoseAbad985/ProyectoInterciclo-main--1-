@@ -130,6 +130,6 @@ export class EditarPerfilComponent implements OnInit {
 
   // Method to navigate back to the main page
   goToUserList(): void {
-    this.router.navigate(['/Main']);
+    this.router.navigate(['pages/Main']); 
   }
 }

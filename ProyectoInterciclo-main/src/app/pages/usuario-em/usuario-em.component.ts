@@ -18,6 +18,7 @@ export class UsuarioEmComponent implements OnInit {
   userForm: FormGroup;
   successMessage: string = '';
   errorMessage: string = '';
+  email: string = ''; // Add an email variable to store the current user's email
 
   constructor(
     private fb: FormBuilder,
@@ -40,8 +41,10 @@ export class UsuarioEmComponent implements OnInit {
     const user = auth.currentUser;
 
     if (user && user.email) {
-      const userEmail = user.email;
-      this.fetchUserData(userEmail);
+      // Fetch the current user's email directly from Firebase Auth
+      this.email = user.email;
+      this.userForm.patchValue({ email: this.email }); // Pre-fill the email field
+      this.fetchUserData(this.email);
     } else {
       console.warn('No user is currently logged in.');
       this.errorMessage = 'No hay un usuario autenticado.';
@@ -56,7 +59,6 @@ export class UsuarioEmComponent implements OnInit {
       const userDoc = await getDoc(userDocRef);
 
       if (userDoc.exists()) {
-        // If the user exists in the database, populate the form with their data
         const userData = userDoc.data();
         console.log('Retrieved user data:', userData);
 
